@@ -1,143 +1,187 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import React, { useState } from "react";
+import { Drawer, Menu } from "antd";
+import {
+  HomeOutlined,
+  PlayCircleOutlined,
+  ClockCircleOutlined,
+  PhoneOutlined,
+} from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { UserAuth } from "../Context API/AuthContext";
-import Menu from "@mui/material/Menu";
 import Avatar from "@mui/material/Avatar";
-import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
-export default function Navigation() {
-  //
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Grid from "@mui/material/Grid";
+import { useNavigate } from "react-router-dom";
+
+const Navigation = () => {
   const { user, logOut } = UserAuth();
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+
   const handleSignOut = async () => {
     try {
       await logOut();
+      // Redirect to the login page after successful logout
+      navigate("/login");
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+  const handleAvatarClick = () => {
+    setShowMenu(!showMenu);
   };
 
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-  //
+  const menuItems = [
+    { key: "1", icon: <HomeOutlined />, text: "Intern List", to: "/" },
+    {
+      key: "2",
+      icon: <PlayCircleOutlined />,
+      text: "Exercises",
+      to: "/exercises",
+    },
+    { key: "3", icon: <ClockCircleOutlined />, text: "Time", to: "/time" },
+    { key: "4", icon: <PhoneOutlined />, text: "Contact", to: "/contact" },
+  ];
+
   return (
-    <div className="Navigation">
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" style={{ backgroundColor: "#333333" }}>
-          <Container maxWidth="xl">
-            <Toolbar disableGutters>
-              <Link to="/">
-                <img
-                  src="https://fpt.edu.vn/Content/images/assets/2017-FE-White-Min.webp"
-                  alt="logo"
-                  width="150"
-                  height="40"
-                  style={{ backgroundColor: "transparent" }}
-                />
-              </Link>
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{ flexGrow: 1 }}
-              ></Typography>
-              <Button>
-                <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-                  Home
-                </Link>
-              </Button>
-              <Button>
-                <Link
-                  to="/new"
-                  style={{ textDecoration: "none", color: "white" }}
-                >
-                  New
-                </Link>
-              </Button>
-              <Button>
-                <Link
-                  to="/contact"
-                  style={{ textDecoration: "none", color: "white" }}
-                >
-                  Contact
-                </Link>
-              </Button>
-              {/* //Login */}
-              {user?.displayName ? (
-                <div>
-                  <Tooltip title="User Profile">
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                      <Avatar alt={user.displayName} src={user.photoURL} />
-                    </IconButton>
-                  </Tooltip>
-                  <Menu
-                    sx={{ mt: "45px" }}
-                    id="menu-appbar"
-                    anchorEl={anchorElUser}
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    open={Boolean(anchorElUser)}
-                    onClose={handleCloseUserMenu}
+    <div>
+      <AppBar position="static" style={{ backgroundColor: "#333333" }}>
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Grid container alignItems="center">
+              <Grid item xs={1}>
+                {user?.displayName && (
+                  <IconButton
+                    style={{ color: "white" }}
+                    aria-label="open drawer"
+                    edge="start"
+                    onClick={() => setDrawerOpen(true)}
                   >
-                    <MenuItem onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">
-                        <Link
-                          to="/dashboard"
-                          style={{ textDecoration: "none" }}
+                    ☰
+                  </IconButton>
+                )}
+              </Grid>
+              <Grid item xs={2}>
+                <Link to="/">
+                  <img
+                    src="https://amazingtech.vn/Content/amazingtech/assets/img/logo-white.png"
+                    alt="logo"
+                    width="150"
+                    height="40"
+                    style={{ backgroundColor: "transparent" }}
+                  />
+                </Link>
+              </Grid>
+              <Grid item xs={9}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    position: "relative",
+                  }}
+                >
+                  {user?.displayName ? (
+                    <div style={{ marginLeft: "auto" }}>
+                      <Tooltip title="User Profile">
+                        <IconButton
+                          style={{ padding: 0, color: "white" }}
+                          onClick={handleAvatarClick}
                         >
-                          Dashboard
-                        </Link>
-                      </Typography>
-                    </MenuItem>
-                    <MenuItem>
-                      <Typography textAlign="center" onClick={handleSignOut}>
-                        Logout
-                      </Typography>
-                    </MenuItem>
-                  </Menu>
+                          <Avatar alt={user.displayName} src={user.photoURL} />
+                        </IconButton>
+                      </Tooltip>
+                      <div style={{ backgroundColor: "blue" }}>
+                        {showMenu && (
+                          <div
+                            style={{
+                              position: "absolute",
+                              top: "100%",
+                              right: 0,
+                            }}
+                          >
+                            <Button
+                              variant="contained"
+                              size="small"
+                              style={{
+                                margin: "8px 0",
+                                color: "white",
+                                backgroundColor: "blue", // Set background color
+                                display: "block",
+                                transition: "background-color 0.3s", // Add transition effect
+                              }}
+                              color="secondary"
+                              onClick={() => navigate("/dashboard")}
+                            >
+                              Profile
+                            </Button>
+                            <Button
+                              variant="contained"
+                              size="small"
+                              style={{
+                                margin: "8px 0",
+                                color: "white",
+                                backgroundColor: "red", // Set background color
+                                display: "block",
+                                transition: "background-color 0.3s", // Add transition effect
+                              }}
+                              color="secondary"
+                              onClick={handleSignOut}
+                            >
+                              Logout
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <Link to="/login" style={{ textDecoration: "none" }}>
+                      <Button
+                        variant="contained"
+                        style={{
+                          margin: "8px 0",
+                          color: "white",
+                          display: "block",
+                        }}
+                        color="secondary"
+                      >
+                        Sign In
+                      </Button>
+                    </Link>
+                  )}
                 </div>
-              ) : (
-                <Link to="/login" style={{ textDecoration: "none" }}>
-                  <Button
-                    variant="contained"
-                    sx={{ my: 2, color: "white", display: "block" }}
-                    color= "secondary"
-                  >
-                    Sign In
-                  </Button>
-                </Link>
-              )}
-              {/* //Login */}
-            </Toolbar>
-          </Container>
-        </AppBar>
-      </Box>
-      <div className="bottom-line"></div>
+              </Grid>
+            </Grid>
+          </Toolbar>
+        </Container>
+      </AppBar>
+      <Drawer
+        title="Navigation"
+        placement="left"
+        onClose={() => setDrawerOpen(false)}
+        visible={drawerOpen}
+      >
+        <Menu
+          theme="light"
+          mode="vertical"
+          onClick={() => setDrawerOpen(false)}
+        >
+          {menuItems.map((item) => (
+            <Menu.Item key={item.key} icon={item.icon}>
+              <Link to={item.to}>{item.text}</Link>
+            </Menu.Item>
+          ))}
+        </Menu>
+      </Drawer>
+      <div style={{ height: 1, backgroundColor: "#ccc" }}></div>
     </div>
   );
-}
+};
+
+export default Navigation;

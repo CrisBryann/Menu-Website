@@ -27,7 +27,7 @@ import { async } from "@firebase/util";
 export default function Dashboard() {
   const [list, setList] = useState([]);
   async function getData() {
-    await callApi("products", "GET", null).then((res) => {
+    await callApi("users", "GET", null).then((res) => {
       setList(res.data);
     });
     console.log(list);
@@ -41,7 +41,7 @@ export default function Dashboard() {
       "Are you sure you want to delete this item?"
     );
     if (confirmDelete) {
-      await callApi("products/" + id, "DELETE", null).then((res) => {
+      await callApi("listFilms/" + id, "DELETE", null).then((res) => {
         // _____No reload____
         // Create a copy of APIData
         const updatedData = [...list];
@@ -83,9 +83,9 @@ export default function Dashboard() {
                 <TableCell>ID</TableCell>
                 <TableCell>Image</TableCell>
                 <TableCell>Name</TableCell>
-                <TableCell>Price</TableCell>
-                <TableCell>Rating</TableCell>
-                <TableCell>Category</TableCell>
+                <TableCell>Postioni</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Phone</TableCell>
                 <TableCell>Description</TableCell>
                 <TableCell>BestSeller</TableCell>
                 <TableCell>Action</TableCell>

@@ -1,0 +1,42 @@
+/* InternList.css */
+
+.intern-list-container {
+  margin: 30px 100px 10px 100px;
+}
+
+.intern-list-table tbody tr:nth-child(odd) {
+  background-color: #252222;
+}
+
+.intern-list-table tbody tr:nth-child(even) {
+  background-color: #fff;
+}
+
+.intern-list-pagination {
+  margin-top: 10px;
+}
+
+.update-button {
+  margin-right: 8px;
+}
+/* InternList.scss */
+
+.search-add {
+  display: flex;
+  justify-content: flex-start; /* Các thành phần sẽ được đặt một cách đồng đều */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  margin: 20px 20px 20px 70px; /* Khoảng cách ngoại vi */
+}
+
+.search-bar {
+  margin-right: 30px; /* Khoảng cách bên phải giữa search bar và nút Add New */
+}
+
+.add-new-button {
+  margin-left: 30px; /* Khoảng cách bên trái giữa nút Add New và search bar */
+}
+
+.intern-list-container {
+  margin: 20px 100px 10px 100px; /* Khoảng cách của bảng so với các lề */
+}
+

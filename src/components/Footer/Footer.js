@@ -9,8 +9,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary">
       {'Copyright © '}
-      <Link color="inherit" href="https://github.com/cubi-dev">
-        Cubi
+      <Link color="inherit" href="https://github.com/CrisBryann">
+      CrisBryann
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -30,11 +30,11 @@ export default function Footer() {
       <CssBaseline />
       <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="sm">
         <Typography variant="h2" component="h1" gutterBottom>
-          Practical Exam 
+          WEB MANAGEMENT
         </Typography>
         <Typography variant="body1" component="h2" gutterBottom>
-          {'This is the case study of react-app by teacher SangNM18'} <br></br>
-          {'-Student Group SE1617-'}
+          {'This is the case study of react-app by CrisBryann'} <br></br>
+          
         </Typography>
       </Container>
       <Box
@@ -51,7 +51,7 @@ export default function Footer() {
       >
         <Container maxWidth="sm">
           <Typography variant="body1">
-            Nguyen Van Dung SE160223 
+            Nguyen Phuoc Thien An SE172664 
           </Typography>
           <Copyright />
         </Container>
